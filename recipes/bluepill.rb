@@ -34,3 +34,11 @@ end
 bluepill_service 's3fs' do
   action [:enable, :load, :start]
 end
+
+template File.join('/etc/init', 'bluepill_s3fs.conf') do
+  source "bluepill_upstart.erb"
+  variables(
+    :config_file => File.join(node[:bluepill][:conf_dir], 's3fs.pill'),
+    :pid_dir => File.join(node[:bluepill][:pid_dir], 'pids')
+  )
+end
