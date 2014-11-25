@@ -34,10 +34,12 @@ def s3fs_fuse_diff_version( check_against )
 
   if File.exists?( node[:s3fs_fuse][:version_file] )
     installed_version = File.open( node[:s3fs_fuse][:version_file], &:gets )
-    if installed_version.empty? || installed_version != check_against
+    if installed_version == nil || installed_version.empty? || installed_version != check_against
       # Not properly installed by this script or version is different
       return true
     end
+  else
+    return true
   end
 
   # s3fs is installed and is the correct version
