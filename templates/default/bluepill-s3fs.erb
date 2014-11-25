@@ -6,7 +6,7 @@ Bluepill.application("s3fs") do |app|
       process.start_command "s3fs -f <%= mount[:bucket] %> <%= mount[:path] %> -o " +
         "allow_other,url=https://s3.amazonaws.com,passwd_file=/etc/passwd-s3fs," +
         "use_cache=<%= mount[:tmp_store] || "/tmp/s3_cache" %>,retries=20,dev," +
-        "suid<%= ",noupload" if mount[:no_upload] %>,<%= mount[:read_only] ? "ro" : "rw" %>"
+        "uid=<%= mount[:uid] %>,gid=<%= mount[:uid] %><%= ",noupload" if mount[:no_upload] %>,<%= mount[:read_only] ? "ro" : "rw" %>"
       process.stop_command "umount <%= mount[:path] %>"
       process.daemonize = true
 
